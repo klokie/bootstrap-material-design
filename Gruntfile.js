@@ -1,14 +1,16 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   "use strict";
 
   require("load-grunt-tasks")(grunt);
 
   var path = require('path');
-  var configBridge = grunt.file.readJSON('./grunt/configBridge.json', {encoding: 'utf8'});
+  var configBridge = grunt.file.readJSON('./grunt/configBridge.json', {
+    encoding: 'utf8'
+  });
   var generateIconsData = require('./grunt/bmd-icons-data-generator.js');
 
-  Object.keys(configBridge.paths).forEach(function (key) {
-    configBridge.paths[key].forEach(function (val, i, arr) {
+  Object.keys(configBridge.paths).forEach(function(key) {
+    configBridge.paths[key].forEach(function(val, i, arr) {
       arr[i] = path.join('./docs/assets', val);
     });
   });
@@ -227,7 +229,7 @@ module.exports = function (grunt) {
     // Test compile sass
     sass: {
       compile: {
-        options:{
+        options: {
           loadPath: "bower_components/bootstrap-sass/assets/stylesheets",
         },
         files: [{
@@ -366,11 +368,11 @@ module.exports = function (grunt) {
     // Copy .js to dist/js/ folder
     copy: {
       material: {
-        src: "scripts/material.js",
+        src: "js/material.js",
         dest: "dist/js/material.js"
       },
       ripples: {
-        src: "scripts/ripples.js",
+        src: "js/ripples.js",
         dest: "dist/js/ripples.js"
       },
       fonts: {
@@ -438,7 +440,7 @@ module.exports = function (grunt) {
       }
     },
     jasmine: {
-      scripts: "scripts/**/*.js",
+      scripts: "js/**/*.js",
       options: {
         build: true,
         specs: "test/*Spec.js",
@@ -451,7 +453,7 @@ module.exports = function (grunt) {
     },
     jshint: {
       options: {
-        jshintrc: "scripts/.jshintrc",
+        jshintrc: "js/.jshintrc",
         reporter: require("jshint-stylish")
       },
       grunt: {
@@ -461,7 +463,7 @@ module.exports = function (grunt) {
         src: ['Gruntfile.js', 'package.js']
       },
       core: {
-        src: ["scripts/**/*.js"]
+        src: ["js/**/*.js"]
       },
       test: {
         src: ["test/**/*.js"]
@@ -476,7 +478,7 @@ module.exports = function (grunt) {
 
     jscs: {
       options: {
-        config: 'scripts/.jscsrc'
+        config: 'js/.jscsrc'
       },
       grunt: {
         src: '<%= jshint.grunt.src %>'
@@ -576,7 +578,9 @@ module.exports = function (grunt) {
   });
 
 
-  require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
+  require('load-grunt-tasks')(grunt, {
+    scope: 'devDependencies'
+  });
   //require('time-grunt')(grunt);
 
   grunt.registerTask('test-js', ['jshint:core', 'jshint:test', 'jshint:grunt', 'jscs:core', 'jscs:test', 'jscs:grunt', 'qunit']);
@@ -660,8 +664,10 @@ module.exports = function (grunt) {
 
 
   // Docs task.
-  grunt.registerTask('build-icons-data', function () { generateIconsData.call(this, grunt); });
-  grunt.registerTask('docs-css', ['less:docs','autoprefixer:docs', 'autoprefixer:examples', 'cssmin:docs']);
+  grunt.registerTask('build-icons-data', function() {
+    generateIconsData.call(this, grunt);
+  });
+  grunt.registerTask('docs-css', ['less:docs', 'autoprefixer:docs', 'autoprefixer:examples', 'cssmin:docs']);
   grunt.registerTask('lint-docs-css', ['csslint:docs', 'csslint:examples']);
   grunt.registerTask('docs-js', ['uglify:docsJs', 'uglify:customize']);
   grunt.registerTask('lint-docs-js', ['jshint:assets', 'jscs:assets']);
